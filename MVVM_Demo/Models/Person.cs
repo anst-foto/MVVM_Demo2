@@ -33,4 +33,16 @@ public class Person : BaseNotifyPropertyChanged
     public string FullName => FirstName is null || LastName is null 
         ? "" 
         :$"{LastName} {FirstName}";
+
+    public override string ToString()
+    {
+        return $$"""
+                "{{nameof(Person)}}": {
+                    "{{nameof(Id)}}": {{Id}}, 
+                    "{{nameof(FirstName)}}": "{{FirstName}}", 
+                    "{{nameof(LastName)}}": "{{LastName}}", 
+                    "{{nameof(Age)}}": {{Age}}
+                }
+                """;
+    }
 }

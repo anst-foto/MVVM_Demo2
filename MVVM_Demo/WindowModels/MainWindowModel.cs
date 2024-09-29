@@ -5,6 +5,8 @@ namespace MVVM_Demo.WindowModels;
 
 public class MainWindowModel : BaseNotifyPropertyChanged
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    
     #region Properties
     private Guid? _id;
     public Guid? Id
@@ -94,19 +96,24 @@ public class MainWindowModel : BaseNotifyPropertyChanged
     {
         if (SelectedPerson is null)
         {
-            Persons.Add(new Person
+            var person = new Person
             {
                 Id = Guid.NewGuid(),
                 FirstName = FirstName!,
                 LastName = LastName!,
                 Age = Age!.Value
-            });
+            };
+            Persons.Add(person);
+            
+            Logger.Info($"New person saved. {person}");
         }
         else
         {
             SelectedPerson.FirstName = FirstName!;
             SelectedPerson.LastName = LastName!;
             SelectedPerson.Age = Age!.Value;
+            
+            Logger.Info($"Person updated. {SelectedPerson}");
         }
         
         Clear();
@@ -114,6 +121,7 @@ public class MainWindowModel : BaseNotifyPropertyChanged
     
     private void Delete()
     {
+        Logger.Info($"Person deleted. {SelectedPerson}");
         Persons.Remove(SelectedPerson!);
         
         Clear();
